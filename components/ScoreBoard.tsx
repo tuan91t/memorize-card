@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useGameStore } from '@/store/useGameStore';
 import { Trophy } from 'lucide-react';
 
@@ -10,17 +10,20 @@ export default function ScoreBoard() {
   
   const [isAnimating, setIsAnimating] = useState(false);
   const [displayScore, setDisplayScore] = useState(score);
+  const displayScoreRef = useRef(score);
+  displayScoreRef.current = displayScore;
   
   // Animate score changes
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     if (score !== displayScore) {
       setIsAnimating(true);
       
       // Quick counting animation
-      const diff = score - displayScore;
+      const diff = score - displayScoreRef.current;
       const steps = 10;
       const increment = diff / steps;
-      let current = displayScore;
+      let current = displayScoreRef.current;
       let step = 0;
       
       const interval = setInterval(() => {
@@ -37,6 +40,7 @@ export default function ScoreBoard() {
       
       return () => clearInterval(interval);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [score]);
   
   return (
