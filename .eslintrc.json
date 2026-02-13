@@ -1,0 +1,5 @@
+/** @type {import('eslint/eslint-plugin').Rules} */
+module.exports = {
+  'react/no-unescaped-entities': 'off',
+  '@next/next/no-html-link-for-pages': 'off',
+};
