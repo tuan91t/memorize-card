@@ -4,12 +4,17 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm ci --only=production
+# Install ALL dependencies (including devDependencies for building)
+RUN npm ci
 
 COPY . .
 
+# Build the app
 RUN npm run build
 
 EXPOSE 3000
 
-CMD ["node", "server.js"]
+# Run in production mode
+ENV NODE_ENV=production
+
+CMD ["npm", "run", "start"]
